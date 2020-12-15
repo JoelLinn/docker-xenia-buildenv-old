@@ -1,0 +1,25 @@
+# Linux build environment for CI
+
+FROM ubuntu:bionic
+
+# GCC 8 is needed for newer std c++17 libs
+
+RUN apt-get update &&                           \
+    apt-get install -y --no-install-recommends  \
+      git                                       \
+      python3                                   \
+      gcc-8 g++-8                               \
+      clang-9                                   \
+      llvm-9-dev                                \
+      libc++-9-dev                              \
+      libc++abi-9-dev                           \
+      libgtk-3-dev                              \
+      liblz4-dev                                \
+      libpthread-stubs0-dev                     \
+      libsdl2-dev                               \
+      libvulkan-dev                             \
+      libx11-dev
+
+ENV CC clang-9
+ENV CXX clang++-9
+ENV AR llvm-ar-9
