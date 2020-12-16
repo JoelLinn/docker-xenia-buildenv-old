@@ -28,10 +28,10 @@ RUN set -eux; \
     ; \
     rm -rf /var/lib/apt/lists/*
 
-RUN wget -O /root/cmake.sh https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh \
-    chmod +x /root/cmake.sh \
-    /root/cmake.sh --skip-license \
-    rm /root/cmake.sh \
+RUN wget -O /root/cmake.sh https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh; \
+    chmod +x /root/cmake.sh; \
+    /root/cmake.sh --skip-license; \
+    rm /root/cmake.sh; \
     cmake --version
 
 RUN ln -s clang-format-9 /usr/bin/clang-format
