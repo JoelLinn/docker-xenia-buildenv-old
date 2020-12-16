@@ -2,6 +2,8 @@
 
 FROM ubuntu:bionic
 
+ARG CMAKE_VERSION=3.19.2
+
 # GCC 8 is needed for newer std c++17 libs
 
 RUN set -eux; \
@@ -10,6 +12,7 @@ RUN set -eux; \
       ca-certificates                           \
       git                                       \
       python3                                   \
+      wget                                      \
       gcc-8 g++-8                               \
       clang-format-9                            \
       clang-9                                   \
@@ -25,8 +28,17 @@ RUN set -eux; \
     ; \
     rm -rf /var/lib/apt/lists/*
 
-RUN ln -s clang-format-9 /usr/bin/clang-format
+RUN wget -O /root/cmake.sh https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-Linux-x86_64.sh \
+    chmod +x /root/cmake.sh \
+    /root/cmake.sh --skip-license \
+    rm /root/cmake.sh \
+    cmake --version
 
-ENV CC clang-9
-ENV CXX clang++-9
-ENV AR llvm-ar-9
+RUN ln -s clang-format-9 /usr/bin/clang-format
+RUN ln -s clang-9 /usr/bin/clang
+RUN ln -s clang++-9 /usr/bin/clang++
+RUN ln -s llvm-ar-9 /usr/bin/llvm-ar
+
+ENV CC clang
+ENV CXX clang++
+ENV AR llvm-ar
