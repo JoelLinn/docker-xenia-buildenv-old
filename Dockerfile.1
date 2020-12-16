@@ -4,12 +4,14 @@ FROM ubuntu:bionic
 
 # GCC 8 is needed for newer std c++17 libs
 
-RUN apt-get update &&                           \
+RUN set -eux; \
+    apt-get update; \
     apt-get install -y --no-install-recommends  \
       ca-certificates                           \
       git                                       \
       python3                                   \
       gcc-8 g++-8                               \
+      clang-format-9                            \
       clang-9                                   \
       llvm-9-dev                                \
       libc++-9-dev                              \
@@ -19,7 +21,11 @@ RUN apt-get update &&                           \
       libpthread-stubs0-dev                     \
       libsdl2-dev                               \
       libvulkan-dev                             \
-      libx11-dev
+      libx11-dev                                \
+    ; \
+    rm -rf /var/lib/apt/lists/*
+
+RUN ln -s clang-format-9 /usr/bin/clang-format
 
 ENV CC clang-9
 ENV CXX clang++-9
